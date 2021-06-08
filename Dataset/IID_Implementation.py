@@ -6,7 +6,7 @@ Created on Wed Jun  9 00:16:03 2021
 @author: tathagat
 """
 
-from IID_Data import load_dataset, getActualImages
+from IID_Functions import load_dataset, getActualImages
 
 train_dataset, test_dataset, train_group, test_group = load_dataset(10) #Users = 10
 
