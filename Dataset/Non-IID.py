@@ -151,18 +151,3 @@ random_selected_classes = random_selected_classes.astype(int)
 print(random_selected_classes)
 print(sum(random_selected_classes.astype(int)))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
