@@ -20,7 +20,7 @@ We want to append the user wise data into a single DS. We don't want multiple DS
 the same. So, we create a user dictionary to store the list of image indices for different users.
 """
     
-def minstIID(dataset, num_users):
+def mnistIID(dataset, num_users):
     num_images = int(len(dataset)/num_users)
     users_dict, indices = {}, list(range(len(dataset)))
     for i in range(num_users):
@@ -36,8 +36,8 @@ def load_dataset(num_users):
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,),(0.3081,))])
     train_dataset = datasets.MNIST(root = './data', train = True, transform = transforms.Compose([transforms.ToTensor()]), download = True)
     test_dataset = datasets.MNIST(root = './data', train = False, transform = transforms.Compose([transforms.ToTensor()]), download = True)
-    train_group = minstIID(train_dataset, num_users)
-    test_group = minstIID(test_dataset, num_users)
+    train_group = mnistIID(train_dataset, num_users)
+    test_group = mnistIID(test_dataset, num_users)
     return train_dataset, test_dataset, train_group, test_group
 
 class FedDataset(Dataset):
