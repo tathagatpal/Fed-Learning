@@ -8,6 +8,7 @@ Created on Wed Jun  9 02:15:32 2021
 
 import torch
 import numpy as np
+from torchvision import transforms, datasets
 from torch.utils.data import DataLoader, Dataset
 from IID_Functions import mnistIID
 
