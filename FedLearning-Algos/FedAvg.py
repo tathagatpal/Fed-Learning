@@ -152,7 +152,7 @@ for client in clients:
 
 for fed_round in range(args.rounds):
     
-#     uncomment if you want a randome fraction for C every round
+#     uncomment if you want a randome fraction for C every round, otherwise C = 0.9 as defined earlier
 #     args.C = float(format(np.random.random(), '.1f'))
     
     # number of selected clients
