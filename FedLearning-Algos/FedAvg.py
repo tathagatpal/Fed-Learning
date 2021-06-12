@@ -21,6 +21,10 @@ importlib.import_module('NonIID')
 from NonIID import load_dataset, getActualImages
 from utils import averageModels, averageGradients
 
+'''
+Create a list of clients, where each client will have a dictionary. The dictionaries will have DataLoader, Model etc.
+'''
+
 class Arguments():
     def __init__(self):
         self.images = 60000
