@@ -29,14 +29,14 @@ Create a list of clients, where each client will be a dictionary. The dictionari
 
 class Arguments():
     def __init__(self):
-        self.images = 60000
-        self.clients = 10
-        self.rounds = 5
-        self.epochs = 5
-        self.local_batches = 64
-        self.lr = 0.01
-        self.C = 0.9
-        self.drop_rate = 0.1
+        self.images = 60000 #Training 
+        self.clients = 10   #Number of clients
+        self.rounds = 5     #From global to local, and then local to global.
+        self.epochs = 5     #Epochs to train model on each client
+        self.local_batches = 64     
+        self.lr = 0.01      #Learning rate
+        self.C = 0.9        #Random fraction to include the number of clients
+        self.drop_rate = 0.1    
         self.torch_seed = 0
         self.log_interval = 10
         self.iid = 'iid'
