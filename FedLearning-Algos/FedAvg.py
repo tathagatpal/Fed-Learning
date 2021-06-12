@@ -29,17 +29,17 @@ Create a list of clients, where each client will be a dictionary. The dictionari
 
 class Arguments():
     def __init__(self):
-        self.images = 60000 #Training 
-        self.clients = 10   #Number of clients
-        self.rounds = 5     #From global to local, and then local to global.
-        self.epochs = 5     #Epochs to train model on each client
+        self.images = 60000        #Training 
+        self.clients = 10          #Number of clients
+        self.rounds = 5            #From global to local, and then local to global.
+        self.epochs = 5            #Epochs to train model on each client
         self.local_batches = 64     
-        self.lr = 0.01      #Learning rate
-        self.C = 0.9        #Random fraction to include the number of clients
-        self.drop_rate = 0.1    
-        self.torch_seed = 0
-        self.log_interval = 10
-        self.iid = 'iid'
+        self.lr = 0.01             #Learning rate
+        self.C = 0.9               #Random fraction to include the number of clients
+        self.drop_rate = 0.1       #To calculate number of active devices are
+        self.torch_seed = 0        #To have the exact same weights and parameters while re-running the code
+        self.log_interval = 10     #Loss interval
+        self.iid = 'iid'           #Type of data
         self.split_size = int(self.images / self.clients)
         self.samples = self.split_size / self.images 
         self.use_cuda = False
@@ -51,14 +51,18 @@ use_cuda = args.use_cuda and torch.cuda.is_available()
 device = torch.device("cuda" if use_cuda else "cpu")
 kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
 
+#Creating virtual workers
 hook = sy.TorchHook(torch)
 clients = []
 
 for i in range(args.clients):
     clients.append({'hook': sy.VirtualWorker(hook, id="client{}".format(i+1))})
 
+#load_dataset to import the IID data
 global_train, global_test, train_group, test_group = load_dataset(args.clients, args.iid)
 
+
+#Return actual images and labels for indicies
 for inx, client in enumerate(clients):
     trainset_ind_list = list(train_group[inx])
     client['trainset'] = getActualImages(global_train, trainset_ind_list, args.local_batches)
@@ -66,14 +70,13 @@ for inx, client in enumerate(clients):
     client['samples'] = len(trainset_ind_list) / args.images
     
 
-
+#Load test dataset for global model
 transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))])
 global_test_dataset = datasets.MNIST('./', train=False, download=True, transform=transform)
 global_test_loader = DataLoader(global_test_dataset, batch_size=args.local_batches, shuffle=True)
 
 
-
-
+#Class for our network
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
