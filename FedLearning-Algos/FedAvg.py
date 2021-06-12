@@ -25,6 +25,8 @@ from utils import averageModels, averageGradients
 Create a list of clients, where each client will be a dictionary. The dictionaries will have DataLoader, Model etc.
 '''
 
+#Hyperparameters
+
 class Arguments():
     def __init__(self):
         self.images = 60000
@@ -183,15 +185,5 @@ for fed_round in range(args.rounds):
         
 if (args.save_model):
     torch.save(global_model.state_dict(), "FedAvg.py")
-
-
-
-
-
-
-
-
-
-
 
 
